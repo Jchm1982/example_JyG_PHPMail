@@ -1,0 +1,52 @@
+<?php
+//ENVIO DE EMAIL CON EJEMPLO DE J&G
+#error_reporting(E_ALL);
+#ini_set("display_errors", 1);
+#include("file_with_errors.php");
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'src/Exception.php';
+require 'src/PHPMailer.php';
+require 'src/SMTP.php';
+
+
+//Create an instance; passing `true` enables exceptions
+$mail = new PHPMailer(true);
+
+try {
+    //Server settings
+    //$mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Habilitar la salida de depuración detallada
+    //$mail->SMTPDebug = SMTP::DEBUG_OFF;
+    $mail->isSMTP();                                            //Enviar usando SMTP
+    $mail->Host       = 'smtp.mail.yahoo.com';                     //Configurar el servidor SMTP para enviar a través
+    $mail->SMTPAuth   = true;                                   //Habilitar autenticación SMTP
+    $mail->Username   = 'jchm1982@yahoo.com';                     // nombre de usuario SMTP
+    #$mail->Username   = 'php mailer';
+    #$mail->Password   = 'Grisel269182,';                               // Contraseña SMTP
+    $mail->Password   = 'kmzzeclevceqzkmx,';
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Habilitar el cifrado TLS implícito
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    #$mail->Port       = 25;
+
+    //Recipients
+    $mail->setFrom('jchm1982@yahoo.com', 'Juan C H M');
+    $mail->addAddress('irene.mb62@gmail.com');     //Add a recipient
+
+
+    //Attachments
+    //$mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
+    //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Prueba de PHPMailer';
+    $mail->Body    = 'Correo de prueba de JCarlos desde PhpMailer 22-05-2022';
+    //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+    $mail->send();
+    echo 'Mensaje enviado de forma CORRECTA';
+} catch (Exception $e) {
+    echo "Hubo un error al enviar el correo: {$mail->ErrorInfo}";
+}
